@@ -2,6 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   /* config options here */
+  output: 'standalone', // Включаем standalone сборку для Docker
   experimental: {
     turbo: {
       rules: {
@@ -27,6 +28,7 @@ const nextConfig: NextConfig = {
 };
 
 // Используем require для next-pwa чтобы избежать конфликтов типов
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const withPWA = require('next-pwa')({
   dest: "public",
   register: true,
@@ -34,6 +36,4 @@ const withPWA = require('next-pwa')({
   disable: process.env.NODE_ENV === "development",
 });
 
-module.exports = withPWA({
-  reactStrictMode: true,
-});
+export default withPWA(nextConfig);
