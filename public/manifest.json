@@ -1,0 +1,62 @@
+{
+  "name": "Store Courier",
+  "short_name": "Courier",
+  "description": "Приложение для курьеров магазина",
+  "start_url": "/courier",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#4f39f6",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "ru",
+  "categories": ["business", "productivity", "utilities"],
+  "icons": [
+    {
+      "src": "/icons/curier-store-logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/curier-store-logo.ico",
+      "sizes": "16x16 32x32 48x48",
+      "type": "image/x-icon"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/icons/curier-store-logo.svg",
+      "sizes": "500x500",
+      "type": "image/svg+xml",
+      "form_factor": "narrow"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Панель управления",
+      "short_name": "Dashboard",
+      "description": "Открыть панель управления курьера",
+      "url": "/courier/dashboard",
+      "icons": [
+        {
+          "src": "/icons/curier-store-logo.svg",
+          "sizes": "any",
+          "type": "image/svg+xml"
+        }
+      ]
+    },
+    {
+      "name": "Новые заказы",
+      "short_name": "Orders",
+      "description": "Просмотр новых заказов",
+      "url": "/courier",
+      "icons": [
+        {
+          "src": "/icons/curier-store-logo.svg",
+          "sizes": "any",
+          "type": "image/svg+xml"
+        }
+      ]
+    }
+  ]
+}

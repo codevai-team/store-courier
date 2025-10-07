@@ -1,0 +1,180 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              String     @id @default(cuid())
+  fullname        String
+  phoneNumber     String     @unique @map("phone_number")
+  password        String
+  role            UserRole   @default(SELLER)
+  createdAt       DateTime   @default(now()) @map("created_at")
+  status          UserStatus @default(ACTIVE)
+  deliveredOrders Order[]    @relation("CourierOrders")
+  products        Product[]  @relation("SellerProducts")
+
+  @@map("users")
+}
+
+model Category {
+  id             String     @id @default(cuid())
+  name           String
+  description    String?
+  categoryId     String?    @map("category_id")
+  imageUrl       String?    @map("image_url")
+  parentCategory Category?  @relation("CategoryHierarchy", fields: [categoryId], references: [id])
+  subCategories  Category[] @relation("CategoryHierarchy")
+  products       Product[]
+
+  @@map("categories")
+}
+
+model Product {
+  id            String         @id @default(cuid())
+  name          String
+  description   String?
+  imageUrl      Json?          @map("image_url")
+  price         Decimal        @db.Decimal(10, 2)
+  categoryId    String         @map("category_id")
+  sellerId      String         @map("seller_id")
+  attributes    Json?
+  createdAt     DateTime       @default(now()) @map("created_at")
+  updatedAt     DateTime       @updatedAt @map("updated_at")
+  status        ProductStatus  @default(ACTIVE)
+  orderItems    OrderItem[]
+  productColors ProductColor[]
+  productSizes  ProductSize[]
+  category      Category       @relation(fields: [categoryId], references: [id])
+  seller        User           @relation("SellerProducts", fields: [sellerId], references: [id])
+  reviews       Review[]
+
+  @@map("products")
+}
+
+model Size {
+  id           String        @id @default(cuid())
+  name         String        @unique
+  orderItems   OrderItem[]
+  productSizes ProductSize[]
+
+  @@map("sizes")
+}
+
+model Color {
+  id            String         @id @default(cuid())
+  name          String         @unique
+  colorCode     String
+  orderItems    OrderItem[]
+  productColors ProductColor[]
+
+  @@map("colors")
+}
+
+model ProductSize {
+  id        String  @id @default(cuid())
+  productId String  @map("product_id")
+  sizeId    String  @map("size_id")
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  size      Size    @relation(fields: [sizeId], references: [id], onDelete: Cascade)
+
+  @@unique([productId, sizeId])
+  @@map("product_sizes")
+}
+
+model ProductColor {
+  id        String  @id @default(cuid())
+  productId String  @map("product_id")
+  colorId   String  @map("color_id")
+  color     Color   @relation(fields: [colorId], references: [id], onDelete: Cascade)
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([productId, colorId])
+  @@map("product_colors")
+}
+
+model Order {
+  id              String      @id @default(cuid())
+  customerName    String      @map("customer_name")
+  customerPhone   String      @map("customer_phone")
+  deliveryAddress String      @map("delivery_address")
+  courierId       String?     @map("courier_id")
+  status          OrderStatus @default(CREATED)
+  customerComment String?     @map("customer_comment")
+  cancelComment   String?     @map("cancel_comment")
+  createdAt       DateTime    @default(now()) @map("created_at")
+  updatedAt       DateTime    @updatedAt @map("updated_at")
+  adminComment    String?     @map("admin_comment")
+  orderItems      OrderItem[]
+  courier         User?       @relation("CourierOrders", fields: [courierId], references: [id])
+
+  @@map("orders")
+}
+
+model OrderItem {
+  id        String  @id @default(cuid())
+  orderId   String  @map("order_id")
+  productId String  @map("product_id")
+  amount    Int
+  price     Decimal @db.Decimal(10, 2)
+  colorId   String? @map("color_id")
+  sizeId    String? @map("size_id")
+  color     Color?  @relation(fields: [colorId], references: [id])
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product   Product @relation(fields: [productId], references: [id])
+  size      Size?   @relation(fields: [sizeId], references: [id])
+
+  @@map("order_items")
+}
+
+model Setting {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("settings")
+}
+
+model Review {
+  id         String  @id @default(cuid())
+  productId  String  @map("product_id")
+  clientName String  @map("client_name")
+  text       String
+  rating     Int     @db.SmallInt
+  product    Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@map("reviews")
+}
+
+enum UserRole {
+  ADMIN
+  COURIER
+  SELLER
+}
+
+enum UserStatus {
+  ACTIVE   @map("active")
+  INACTIVE @map("inactive")
+  DELETED  @map("deleted")
+}
+
+enum OrderStatus {
+  CREATED        @map("created")
+  COURIER_WAIT   @map("courier_wait")
+  COURIER_PICKED @map("courier_picked")
+  ENROUTE        @map("enroute")
+  DELIVERED      @map("delivered")
+  CANCELED       @map("canceled")
+}
+
+enum ProductStatus {
+  ACTIVE   @map("active")
+  INACTIVE @map("inactive")
+  DELETED  @map("deleted")
+}
