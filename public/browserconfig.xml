@@ -2,7 +2,7 @@
 <browserconfig>
     <msapplication>
         <tile>
-            <square150x150logo src="/icons/curier-store-logo.svg"/>
+            <square150x150logo src="/unimark-logo.svg"/>
             <TileColor>#4f39f6</TileColor>
         </tile>
     </msapplication>

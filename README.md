@@ -1,4 +1,4 @@
-# Store Courier
+# Unimark Courier
 
 Система управления доставкой товаров, построенная на Next.js 15, TypeScript, Tailwind CSS и Prisma ORM с PostgreSQL.
 
@@ -44,7 +44,7 @@ copy .env.example .env
 
 2. Отредактируйте `.env` файл и укажите ваш DATABASE_URL и JWT_SECRET:
 ```env
-DATABASE_URL="postgresql://username:password@localhost:5432/store_courier_db?schema=public"
+DATABASE_URL="postgresql://username:password@localhost:5432/unimark_courier_db?schema=public"
 JWT_SECRET="your-super-secret-jwt-key-change-this-in-production"
 ```
 

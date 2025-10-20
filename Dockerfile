@@ -59,7 +59,7 @@ RUN adduser --system --uid 1001 nextjs
 
 # Создаем скрипт запуска прямо в Dockerfile
 RUN echo '#!/bin/sh' > start.sh && \
-    echo 'echo "🚀 Запуск Store Client..."' >> start.sh && \
+    echo 'echo "🚀 Запуск Unimark Client..."' >> start.sh && \
     echo 'echo "📦 Генерируем Prisma клиент..."' >> start.sh && \
     echo 'npx prisma generate' >> start.sh && \
     echo 'echo "🔍 Проверяем подключение к базе данных..."' >> start.sh && \

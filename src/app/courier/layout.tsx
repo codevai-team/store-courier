@@ -89,7 +89,7 @@ function CourierLayoutContent({
                 <TruckIcon className="w-4 h-4 sm:w-6 sm:h-6 lg:w-7 lg:h-7 text-white" />
               </div>
               <h1 className="ml-1 sm:ml-2 lg:ml-4 text-sm sm:text-lg lg:text-2xl tracking-tight" style={{ color: 'var(--foreground)' }}>
-                Store<span className="gradient-text hidden sm:inline">Courier</span>
+                Unimark<span className="gradient-text hidden sm:inline">Courier</span>
               </h1>
             </div>
 
@@ -167,8 +167,8 @@ function CourierLayoutContent({
                     
                     // Перенаправляем на страницу логина
                     window.location.href = '/courier/login'
-                  } catch (error) {
-                    // console.error('Ошибка при выходе:', error)
+                  } catch {
+                    // console.error('Ошибка при выходе')
                     // В любом случае перенаправляем на логин
                     window.location.href = '/courier/login'
                   }

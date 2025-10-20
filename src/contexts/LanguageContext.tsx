@@ -150,7 +150,7 @@ const translations = {
     'addressLabel': 'Адрес',
     
     // Навигация
-    'storeCourier': 'StoreCourier',
+    'storeCourier': 'UnimarkCourier',
     'courierCabinet': 'Личный кабинет курьера',
     'activeStatus': 'Активен',
     'logout': 'Выйти',
@@ -309,7 +309,7 @@ const translations = {
     'items2': 'товар',
     
     // Навигация
-    'storeCourier': 'StoreCourier',
+    'storeCourier': 'UnimarkCourier',
     'courierCabinet': 'Курьердин жеке кабинети',
     'activeStatus': 'Активдүү',
     'logout': 'Чыгуу',

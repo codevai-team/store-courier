@@ -1,5 +1,5 @@
 {
-  "name": "Store Courier",
+  "name": "Unimark Courier",
   "short_name": "Courier",
   "description": "Приложение для курьеров магазина",
   "start_url": "/courier",
@@ -12,20 +12,20 @@
   "categories": ["business", "productivity", "utilities"],
   "icons": [
     {
-      "src": "/icons/curier-store-logo.svg",
+      "src": "/unimark-logo.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "maskable any"
     },
     {
-      "src": "/icons/curier-store-logo.ico",
+      "src": "/unimark-logo.svg",
       "sizes": "16x16 32x32 48x48",
       "type": "image/x-icon"
     }
   ],
   "screenshots": [
     {
-      "src": "/icons/curier-store-logo.svg",
+      "src": "/unimark-logo.svg",
       "sizes": "500x500",
       "type": "image/svg+xml",
       "form_factor": "narrow"
@@ -39,7 +39,7 @@
       "url": "/courier/dashboard",
       "icons": [
         {
-          "src": "/icons/curier-store-logo.svg",
+          "src": "/unimark-logo.svg",
           "sizes": "any",
           "type": "image/svg+xml"
         }
@@ -52,7 +52,7 @@
       "url": "/courier",
       "icons": [
         {
-          "src": "/icons/curier-store-logo.svg",
+          "src": "/unimark-logo.svg",
           "sizes": "any",
           "type": "image/svg+xml"
         }

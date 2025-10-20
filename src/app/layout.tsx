@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Store Courier - Приложение для курьеров",
+  title: "Unimark Courier - Приложение для курьеров",
   description: "Профессиональное приложение для курьеров магазина с управлением заказами и уведомлениями",
   manifest: "/manifest.json",
   themeColor: "#4f39f6",
@@ -22,20 +22,20 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "Store Courier",
+    title: "Unimark Courier",
   },
   formatDetection: {
     telephone: false,
   },
   openGraph: {
     type: "website",
-    siteName: "Store Courier",
-    title: "Store Courier - Приложение для курьеров",
+    siteName: "Unimark Courier",
+    title: "Unimark Courier - Приложение для курьеров",
     description: "Профессиональное приложение для курьеров магазина",
   },
   icons: {
-    icon: "/icons/curier-store-logo.svg",
-    apple: "/icons/curier-store-logo.svg",
+    icon: "/unimark-logo.svg",
+    apple: "/unimark-logo.svg",
   },
 };
 
@@ -47,31 +47,31 @@ export default function RootLayout({
   return (
     <html lang="ru">
       <head>
-        <meta name="application-name" content="Store Courier" />
+        <meta name="application-name" content="Unimark Courier" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-        <meta name="apple-mobile-web-app-title" content="Store Courier" />
+        <meta name="apple-mobile-web-app-title" content="Unimark Courier" />
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="msapplication-TileColor" content="#000000" />
         <meta name="msapplication-tap-highlight" content="no" />
         <meta name="msapplication-config" content="/browserconfig.xml" />
         
         {/* Apple Touch Icons */}
-        <link rel="apple-touch-icon" href="/icons/curier-store-logo.svg" />
-        <link rel="apple-touch-icon" sizes="152x152" href="/icons/curier-store-logo.svg" />
-        <link rel="apple-touch-icon" sizes="180x180" href="/icons/curier-store-logo.svg" />
+        <link rel="apple-touch-icon" href="/unimark-logo.svg" />
+        <link rel="apple-touch-icon" sizes="152x152" href="/unimark-logo.svg" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/unimark-logo.svg" />
         
         {/* Standard Icons */}
-        <link rel="icon" type="image/x-icon" sizes="16x16" href="/icons/curier-store-logo.ico" />
-        <link rel="icon" type="image/x-icon" sizes="32x32" href="/icons/curier-store-logo.ico" />
-        <link rel="icon" type="image/svg+xml" sizes="192x192" href="/icons/curier-store-logo.svg" />
-        <link rel="icon" type="image/svg+xml" sizes="512x512" href="/icons/curier-store-logo.svg" />
+        <link rel="icon" type="image/x-icon" sizes="16x16" href="/unimark-logo.svg" />
+        <link rel="icon" type="image/x-icon" sizes="32x32" href="/unimark-logo.svg" />
+        <link rel="icon" type="image/svg+xml" sizes="192x192" href="/unimark-logo.svg" />
+        <link rel="icon" type="image/svg+xml" sizes="512x512" href="/unimark-logo.svg" />
         
         {/* Manifest */}
         <link rel="manifest" href="/manifest.json" />
         
         {/* Safari */}
-        <link rel="mask-icon" href="/icons/curier-store-logo.svg" color="#4f39f6" />
+        <link rel="mask-icon" href="/unimark-logo.svg" color="#4f39f6" />
         
         {/* Theme */}
         <meta name="theme-color" content="#4f39f6" />

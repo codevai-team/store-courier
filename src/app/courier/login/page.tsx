@@ -48,8 +48,8 @@ export default function CourierLoginPage() {
           try {
             localStorage.setItem('auth-token-backup', data.data?.user?.id || '')
             // console.log('Токен сохранен в localStorage как backup')
-          } catch (e) {
-            // console.log('Не удалось сохранить в localStorage:', e)
+          } catch {
+            // console.log('Не удалось сохранить в localStorage')
           }
           
           // Сначала пробуем через роутер
@@ -77,7 +77,7 @@ export default function CourierLoginPage() {
       } else {
         setError(data.error || 'Ошибка входа')
       }
-    } catch (error) {
+    } catch {
       setError('Ошибка подключения к серверу')
     } finally {
       setIsLoading(false)
@@ -112,7 +112,7 @@ export default function CourierLoginPage() {
             {/* Заголовок внутри формы */}
             <div className="text-center mb-8">
               <h1 className="text-3xl mb-2 text-white drop-shadow-2xl tracking-tight">
-                StoreCourier
+                UnimarkCourier
               </h1>
               <p className="text-base text-white/70">
                 Система управления доставкой
