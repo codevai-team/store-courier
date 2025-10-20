@@ -17,6 +17,7 @@ model User {
   status          UserStatus @default(ACTIVE)
   deliveredOrders Order[]    @relation("CourierOrders")
   products        Product[]  @relation("SellerProducts")
+  commissions     SellerCommission[] @relation("SellerCommissions")
 
   @@map("users")
 }
@@ -106,11 +107,13 @@ model Order {
   status          OrderStatus @default(CREATED)
   customerComment String?     @map("customer_comment")
   cancelComment   String?     @map("cancel_comment")
+  adminComment    String?     @map("admin_comment")
   createdAt       DateTime    @default(now()) @map("created_at")
   updatedAt       DateTime    @updatedAt @map("updated_at")
-  adminComment    String?     @map("admin_comment")
-  orderItems      OrderItem[]
-  courier         User?       @relation("CourierOrders", fields: [courierId], references: [id])
+
+  // Связи
+  courier    User?       @relation("CourierOrders", fields: [courierId], references: [id])
+  orderItems OrderItem[]
 
   @@map("orders")
 }
@@ -150,6 +153,19 @@ model Review {
   product    Product @relation(fields: [productId], references: [id], onDelete: Cascade)
 
   @@map("reviews")
+}
+
+model SellerCommission {
+  id        String   @id @default(cuid())
+  sellerId  String   @map("seller_id")
+  rate      Decimal  @db.Decimal(5, 2) // Процент от 0.00 до 100.00
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  
+  // Связь с продавцом
+  seller User @relation("SellerCommissions", fields: [sellerId], references: [id], onDelete: Cascade)
+
+  @@map("seller_commissions")
 }
 
 enum UserRole {
