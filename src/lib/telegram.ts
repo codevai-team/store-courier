@@ -1,4 +1,3 @@
-import TelegramBot from 'node-telegram-bot-api'
 import type { OrderWithDetails, TelegramRegistrationResult } from '@/types'
 import { getCourierChatId, setCourierChatId } from '@/lib/settings'
 import { prisma } from '@/lib/prisma'
@@ -97,8 +96,8 @@ ${order.orderItems.map(item =>
     }
     
     // Отправляем уведомления всем курьерам
-    let successCount = 0
-    let errorCount = 0
+    let _successCount = 0
+    let _errorCount = 0
 
     for (const courier of couriers) {
       try {
@@ -135,10 +134,10 @@ ${order.orderItems.map(item =>
         }
 
         // console.log(`Telegram: Уведомление отправлено курьеру ${courier.fullname}`)
-        successCount++
-      } catch (courierError) {
-        // console.error(`Telegram: Ошибка отправки курьеру ${courier.fullname}:`, courierError)
-        errorCount++
+        _successCount++
+      } catch (_courierError) { // eslint-disable-line @typescript-eslint/no-unused-vars
+        // console.error(`Telegram: Ошибка отправки курьеру ${courier.fullname}:`, _courierError)
+        _errorCount++
       }
     }
 
@@ -245,7 +244,7 @@ ${order.customerComment ? `💬 *Комментарий:* ${order.customerCommen
     }
 
     // Определяем эмодзи для статуса
-    const getStatusEmoji = (status: string) => {
+    const _getStatusEmoji = (status: string) => {
       switch (status) {
         case 'ENROUTE': return '🚚'
         case 'DELIVERED': return '✅'
@@ -334,69 +333,64 @@ ${order.courier ? `🚚 *Курьер:* ${order.courier.fullname}` : ''}`
       }
       return
     }
-  } catch (error) {
-    // console.error('Ошибка отправки Telegram уведомления об обновлении статуса:', error)
+  } catch (_error) { // eslint-disable-line @typescript-eslint/no-unused-vars
+    // console.error('Ошибка отправки Telegram уведомления об обновлении статуса:', _error)
   }
 }
 
 // Функция для тестирования бота
 export async function testTelegramBot() {
-  try {
-    // console.log('Telegram: Начинаем тестирование бота...')
-    
-    const bot = await getBot()
-    if (!bot) {
-      throw new Error('Не удалось получить экземпляр бота')
-    }
+  // console.log('Telegram: Начинаем тестирование бота...')
+  
+  const bot = await getBot()
+  if (!bot) {
+    throw new Error('Не удалось получить экземпляр бота')
+  }
 
-    // Получаем всех курьеров с chat_id
-    const couriers = await prisma.user.findMany({
-      where: {
-        role: 'COURIER'
+  // Получаем всех курьеров с chat_id
+  const couriers = await prisma.user.findMany({
+    where: {
+      role: 'COURIER'
+    }
+  })
+
+  // console.log('Telegram: Найдено курьеров:', couriers.length)
+  
+  let _successCount = 0
+  let _errorCount = 0
+
+  for (const courier of couriers) {
+    try {
+      const chatId = await getCourierChatId(courier.id)
+      if (!chatId) {
+        // console.log(`Telegram: Chat ID не найден для курьера ${courier.fullname}`)
+        continue
       }
-    })
 
-    // console.log('Telegram: Найдено курьеров:', couriers.length)
-    
-    let successCount = 0
-    let errorCount = 0
-
-    for (const courier of couriers) {
-      try {
-        const chatId = await getCourierChatId(courier.id)
-        if (!chatId) {
-          // console.log(`Telegram: Chat ID не найден для курьера ${courier.fullname}`)
-          continue
-        }
-
-        // console.log(`Telegram: Отправляем тестовое сообщение курьеру ${courier.fullname}...`)
-        
-        // Создаем Promise с таймаутом для тестового сообщения
-        const sendMessagePromise = bot.sendMessage(chatId, `🤖 Привет, ${courier.fullname}! Telegram бот работает! Уведомления о заказах активированы.`)
-        
-        const timeoutPromise = new Promise((_, reject) => {
-          setTimeout(() => reject(new Error('Telegram API timeout')), 10000)
-        })
-        
-        // Отправляем сообщение с таймаутом
-        await Promise.race([sendMessagePromise, timeoutPromise])
-        
-        // console.log(`✅ Тестовое сообщение отправлено курьеру ${courier.fullname}`)
-        successCount++
-      } catch (courierError) {
-        // console.error(`❌ Ошибка отправки курьеру ${courier.fullname}:`, courierError)
-        errorCount++
-      }
+      // console.log(`Telegram: Отправляем тестовое сообщение курьеру ${courier.fullname}...`)
+      
+      // Создаем Promise с таймаутом для тестового сообщения
+      const sendMessagePromise = bot.sendMessage(chatId, `🤖 Привет, ${courier.fullname}! Telegram бот работает! Уведомления о заказах активированы.`)
+      
+      const timeoutPromise = new Promise((_, reject) => {
+        setTimeout(() => reject(new Error('Telegram API timeout')), 10000)
+      })
+      
+      // Отправляем сообщение с таймаутом
+      await Promise.race([sendMessagePromise, timeoutPromise])
+      
+      // console.log(`✅ Тестовое сообщение отправлено курьеру ${courier.fullname}`)
+      _successCount++
+    } catch (_courierError) { // eslint-disable-line @typescript-eslint/no-unused-vars
+      // console.error(`❌ Ошибка отправки курьеру ${courier.fullname}:`, _courierError)
+      _errorCount++
     }
-    
-    // console.log(`Тестирование завершено. Успешно: ${successCount}, Ошибок: ${errorCount}`)
-    
-    if (successCount === 0) {
-      throw new Error('Не удалось отправить тестовое сообщение ни одному курьеру')
-    }
-  } catch (error) {
-    // console.error('❌ Ошибка тестирования Telegram бота:', error)
-    throw error // Пробрасываем ошибку для обработки в API
+  }
+  
+  // console.log(`Тестирование завершено. Успешно: ${_successCount}, Ошибок: ${_errorCount}`)
+  
+  if (_successCount === 0) {
+    throw new Error('Не удалось отправить тестовое сообщение ни одному курьеру')
   }
 }
 
@@ -404,7 +398,7 @@ export async function testTelegramBot() {
 export async function findCourierByPhone(phoneNumber: string) {
   try {
     // Нормализуем номер телефона (убираем пробелы, дефисы, плюсы)
-    const normalizedPhone = phoneNumber.replace(/[\s\-\+\(\)]/g, '')
+    const normalizedPhone = phoneNumber.replace(/[\s\-+()]/g, '')
     
     const courier = await prisma.user.findFirst({
       where: {
@@ -419,8 +413,8 @@ export async function findCourierByPhone(phoneNumber: string) {
     })
 
     return courier
-  } catch (error) {
-    // console.error('Ошибка поиска курьера по номеру телефона:', error)
+  } catch (_error) { // eslint-disable-line @typescript-eslint/no-unused-vars
+    // console.error('Ошибка поиска курьера по номеру телефона:', _error)
     return null
   }
 }
@@ -486,8 +480,8 @@ export async function registerCourierInTelegram(chatId: string, phoneNumber: str
         message: `❌ Произошла ошибка при регистрации. Попробуйте позже или обратитесь к администратору.`
       }
     }
-  } catch (error) {
-    // console.error('Ошибка регистрации курьера в Telegram:', error)
+  } catch (_error) { // eslint-disable-line @typescript-eslint/no-unused-vars
+    // console.error('Ошибка регистрации курьера в Telegram:', _error)
     return {
       success: false,
       message: `❌ Произошла ошибка при регистрации. Попробуйте позже или обратитесь к администратору.`
