@@ -227,7 +227,7 @@ export async function startTelegramPolling() {
       if (!text) return
 
       // Обработка номера телефона в текстовом виде
-      const phoneRegex = /[+]?[0-9\s\-()]{9,15}/
+      const phoneRegex = /[\+]?[0-9\s\-\(\)]{9,15}/
       if (phoneRegex.test(text)) {
         console.log(`📞 Номер телефона в тексте от ${chatId}: ${text}`)
         
